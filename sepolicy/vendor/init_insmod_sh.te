@@ -1,0 +1,6 @@
+# Allow the stock second-stage module loader to read cmdline and schedule
+# modprobe. The init_insmod_sh domain is provided by the MediaTek/Lineage
+# vendor policy baseline.
+allow init_insmod_sh proc_cmdline:file r_file_perms;
+allow init_insmod_sh self:capability sys_nice;
+allow init_insmod_sh kernel:process setsched;

@@ -35,7 +35,7 @@ PROPERTY_PLATFORM_SUPPORT="ro.vendor.mediatek.platform"
 #echo -e "[`date +%Y/%m/%d\ %H:%M:%S`]  `whoami` "
 #}
 
-#exit script 
+#exit script
 function _exit(){
 if [ $1 -eq 0 ] ; then
         echo -e "TRAN MCF update result:Successed     "
@@ -53,13 +53,13 @@ else
         exit 1
 fi
 }
-#move to runtime path 
+#move to runtime path
 function move_to_runtime_dir() {
 #cheek runtime_dir
 echo -e "Get ota_file_num = $1"
 # ota file num > 0
 if [ $1 -gt 0 ] ; then
-        #check runtime path size 
+        #check runtime path size
         runtime_dir_size=$(du -ms ${mcf_runtime_dir}|awk '{print $1}')
         echo -e "Get Runtime dir size = ${runtime_dir_size}MB"
         if [ ${runtime_dir_size} -lt 10 ] ; then
@@ -183,9 +183,9 @@ case $2 in
 esac
 
 if [ $1 -eq 2 ] ; then
-        echo -e "DSBP Result:${mcf_result}"	
-elif [ $1 -eq 6 ] ; then 
-        echo -e "MCF Result:${mcf_result}"	
+        echo -e "DSBP Result:${mcf_result}"
+elif [ $1 -eq 6 ] ; then
+        echo -e "MCF Result:${mcf_result}"
 fi
 }
 
@@ -195,11 +195,11 @@ i=1
 while [ $i -le 3 ]
 do
         sleep 3
-        if [ -s ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt ] ; then 
+        if [ -s ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt ] ; then
                 #get dsbp result
                 dsbp_mcf_at_respond=`grep -i "EMCFRPT" ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt`
                 #echo -e "< +${dsbp_mcf_at_respond}"
-                if [ $dsbp_mcf_at_respond ] ; then 
+                if [ $dsbp_mcf_at_respond ] ; then
                         dsbp_type_result=$(echo -e ${dsbp_mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $1}')
                         dsbp_at_result=$(echo -e ${dsbp_mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $2}')
                         dsbp_running_end=`date "+%Y-%m-%d %H:%M:%S"`
@@ -229,18 +229,18 @@ i=1
 while [ $i -le 3 ]
 do
         sleep 1
-        if [ -s ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt ] ; then 
+        if [ -s ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt ] ; then
                 #get mcf result
                 mcf_at_respond=$(grep -i "EMCFC" ${mcf_runtime_dir}/MTK_READ_WRITE_RESULT.txt)
                 #echo -e "< +${mcf_at_respond}"
-                #not null 
-                if [ $mcf_at_respond ] ; then 
+                #not null
+                if [ $mcf_at_respond ] ; then
                         mcf_config_at_result=$(echo -e ${mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $1}')
                         mcf_at_result=$(echo -e ${mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $2}')
                         dsbp_processing_at_result=$(echo -e ${mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $3}')
-                        if [ $mcf_config_at_result -eq 6 ] ; then 
+                        if [ $mcf_config_at_result -eq 6 ] ; then
                                 check_mcf_result $mcf_config_at_result $mcf_at_result
-                                case $dsbp_processing_at_result in 
+                                case $dsbp_processing_at_result in
                                         0)
                                                 dsbp_processing_result="DSBP TRIGGER SUCCESS"
                                                 ;;
@@ -283,7 +283,7 @@ do
                                         fi
                                 fi
                                 break
-                        else 
+                        else
                                 echo -e "Waitting for MCF respond"
                         fi
                 fi
@@ -299,8 +299,8 @@ function get_carrier_mcf_at_respond() {
 i=1
 while [ $i -le 3 ]
 do
-        sleep 1 
-        if [ -s ${mcf_runtime_dir}/TRAN_MCF_READ_CONFIG_FILE_PATH_RESULT.txt ] ; then 
+        sleep 1
+        if [ -s ${mcf_runtime_dir}/TRAN_MCF_READ_CONFIG_FILE_PATH_RESULT.txt ] ; then
                 read carrier_mcf_at_respond <${mcf_runtime_dir}/TRAN_MCF_READ_CONFIG_FILE_PATH_RESULT.txt
                 if [ $carrier_mcf_at_respond ] ; then
                         #echo -e "< +${carrier_mcf_at_respond}"
@@ -310,15 +310,15 @@ do
                         config_file_name_cnf=$(echo -e ${carrier_mcf_at_respond#*=}|sed 's/\,/ /g'|awk '{print $4}')
 
                         #Get File Path Command
-                        if [ $config_op_cnf -eq 4 ] ; then 
+                        if [ $config_op_cnf -eq 4 ] ; then
                                 #MCF file path type  0:buildtime  1:runtime
                                 if [ $config_path_type_cnf -eq 0 ] ; then
                                         config_path_type="Buildtime"
-                                        generated_time=$(stat ${mcf_buildtime_dir}/$config_file_name_cnf|grep Modify|awk '{print $2 " " $3}') 
+                                        generated_time=$(stat ${mcf_buildtime_dir}/$config_file_name_cnf|grep Modify|awk '{print $2 " " $3}')
 
                                 elif [ $config_path_type_cnf -eq 1 ] ; then
                                         config_path_type="Runtime"
-                                        generated_time=$(stat ${mcf_runtime_dir}/$config_file_name_cnf|grep Modify|awk '{print $2 " " $3}') 
+                                        generated_time=$(stat ${mcf_runtime_dir}/$config_file_name_cnf|grep Modify|awk '{print $2 " " $3}')
                                 fi
                         fi
                         echo -e "Loading:
@@ -348,14 +348,14 @@ echo -e at+emcfc=4,2\\r > /dev/pts/7
 get_carrier_mcf_at_respond
 
 #sim 1 CARRIER_BIN
-if [ $tranfs_sim_status_0 == "1" ] ; then 
+if [ $tranfs_sim_status_0 == "1" ] ; then
         echo -e "Get PS1 CARRIER_BIN"
         echo -e at+emcfc=4,1\\r > /dev/pts/7
         get_carrier_mcf_at_respond
 fi
 
 #sim 2 CARRIER_BIN
-if [ $tranfs_sim_status_1 == "1" ] ; then 
+if [ $tranfs_sim_status_1 == "1" ] ; then
         echo -e "Get PS2 CARRIER_BIN "
         echo -e at+emcfc=4,1\\r > /dev/pts/21
         #check respond
@@ -407,7 +407,7 @@ if [ $1 -gt 0 ] ; then
 fi
 }
 
-#update mcf file 
+#update mcf file
 function update_mcf() {
 
 if echo -e ${tranfs_platform_support}|grep -iq "${TRAN_MTK_PLATFORM_GEN97}" ;then
@@ -442,7 +442,7 @@ elif echo -e ${tranfs_platform_support}|grep -iq "${TRAN_MTK_PLATFORM_GEN98}" ;t
         move_to_runtime_dir ${ota_file_num} ${ota_mcfota_file_num} ${ota_mcfopota_file_num}
 else
         echo -e "MCF OTA Not support other platforms \n"
-        _exit 1 
+        _exit 1
 fi
 }
 
@@ -450,7 +450,7 @@ function check_log_size (){
 if [ -f ${mcf_runtime_dir}/tran_mcf.log ] ; then
         log_size=$(du -m ${mcf_runtime_dir}/tran_mcf.log|awk '{print $1}')
        echo -e "tran_mcf.log size = ${log_size}MB"
-       if [ ${log_size} -gt 10 ] ; then 
+       if [ ${log_size} -gt 10 ] ; then
                echo -e "tran_mcf.log size too large,clearing the log......"
                cat /dev/null >${mcf_runtime_dir}/tran_mcf.log
        fi
@@ -487,7 +487,7 @@ echo -e "Convert SIM1 STATUS:$tranfs_sim_status_0 , SIM2 STATUS:$tranfs_sim_stat
 
 if [ $1 -eq 1 ] ; then
         echo -e "Update MTK_OTA file"
-elif [ $tranfs_sim_status_0 == "0" ] && [ $tranfs_sim_status_1 == "0" ] ;then 
+elif [ $tranfs_sim_status_0 == "0" ] && [ $tranfs_sim_status_1 == "0" ] ;then
         echo -e "Please check your sim card was inserted"
         _exit 1
 fi
@@ -507,11 +507,11 @@ echo -e "####    Step 1:CHECK LOG FILE SIZE    #### "
 check_log_size
 #check mcf support
 if [ "$MCF_SUPPORT" == "1" ]; then
-        update_mcf 
+        update_mcf
         _exit 0
-else 
+else
         echo -e "Device Not support MCF feature!!! \n"
-        _exit 1 
+        _exit 1
 fi
 }
 

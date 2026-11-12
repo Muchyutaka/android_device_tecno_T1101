@@ -13,6 +13,12 @@ else
   exit 1
 fi
 
+# Android 12+ may place vendor modules in vendor_dlkm instead of vendor.
+module_dir=/vendor/lib/modules
+if [ -d /vendor_dlkm/lib/modules ]; then
+  module_dir=/vendor_dlkm/lib/modules
+fi
+
 if [ -f $cfg_file ]; then
   while IFS="|" read -r action arg
   do
@@ -23,11 +29,11 @@ if [ -f $cfg_file ]; then
       "modprobe")
         case ${arg} in
           "-b *" | "-b")
-            arg="-b $(cat /vendor/lib/modules/modules.load)" ;;
+            arg="-b $(cat ${module_dir}/modules.load)" ;;
           "*" | "")
-            arg="$(cat /vendor/lib/modules/modules.load)" ;;
+            arg="$(cat ${module_dir}/modules.load)" ;;
         esac
-        modprobe -a -d /vendor/lib/modules $arg ;;
+        modprobe -a -d ${module_dir} $arg ;;
     esac
   done < $cfg_file
 fi

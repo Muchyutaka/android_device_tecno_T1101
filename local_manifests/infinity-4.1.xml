@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  T1101 local manifest for Project Infinity X 4.1 (Android 17).
+
+  Initialize upstream first (see README.md for the full repo init command).
+  Copy this file to .repo/local_manifests/infinity-4.1.xml before repo sync.
+
+  The vendor/infinity override pins the actual 4.1 version commit; upstream
+  branch 17 has already moved to 4.2 at the time this tree was prepared.
+-->
+<manifest>
+  <remote name="muchyutaka"
+          fetch="https://github.com/Muchyutaka"
+          revision="arena/ca033d92-android-device-tecno-t1101" />
+
+  <remote name="lineage"
+          fetch="https://github.com/LineageOS"
+          revision="lineage-24.0" />
+
+  <!-- Device tree. Change revision to main after this branch is merged. -->
+  <project path="device/tecno/T1101"
+           name="android_device_tecno_T1101"
+           remote="muchyutaka" />
+
+  <!-- MediaTek vendor SELinux baseline and helpers. -->
+  <project path="device/mediatek/sepolicy_vndr"
+           name="android_device_mediatek_sepolicy_vndr"
+           remote="lineage" />
+  <project path="hardware/mediatek"
+           name="android_hardware_mediatek"
+           remote="lineage" />
+
+  <!-- Pin Project Infinity X vendor to 4.1 instead of current 17 HEAD (4.2). -->
+  <remove-project name="vendor_infinity" />
+  <project path="vendor/infinity"
+           name="vendor_infinity"
+           remote="infinity"
+           revision="9a651bc8c52730a4c57a4984fb6a846067c8b2f4" />
+</manifest>

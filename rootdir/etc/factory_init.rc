@@ -303,7 +303,7 @@ on firmware_mounts_complete
     # Now we can mount /data. File encryption requires keymaster to decrypt
     # /data, which in turn can only be loaded when system properties are present.
     trigger post-fs-data
-   
+
     # Load persist properties and override properties (if enabled) from /data.
     trigger load_persist_props_action
 

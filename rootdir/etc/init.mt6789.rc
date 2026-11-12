@@ -630,7 +630,7 @@ on post-fs-data
     #OIS
     chmod 0660 /dev/dw9781_ois
     #OIS
-    chown system camera /dev/dw9781_ois 
+    chown system camera /dev/dw9781_ois
     #DualCam
     mkdir /data/vendor/arcsoft 0777 system system
     #tranDualCam
@@ -799,7 +799,7 @@ on post-fs-data
 	#widevine driver node
 	chmod 0660 /dev/drm_wv
 	chown media system /dev/drm_wv
-	
+
 # End of adding by MTK drivers
 # -----------------------
 on zygote-start
@@ -1155,7 +1155,7 @@ service factory_no_image /vendor/bin/factory
     capabilities BLOCK_SUSPEND NET_RAW NET_ADMIN SYS_ADMIN SYS_BOOT
     socket factory-atci stream 660 radio system
     disabled
-    oneshot	
+    oneshot
 
 # start meta_tst for ATM
 on property:sys.boot_completed=1 && property:ro.boot.atm=enable

@@ -1,3 +1,1 @@
-# Miscellaneous
-ro.product.odm.tran.device.name.default=
-
+# No device-specific ODM properties are required for the Infinity X port.

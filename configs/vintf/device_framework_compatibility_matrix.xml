@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+    T1101-specific framework compatibility additions. The Trustonic TEE HALs
+    are optional because they are only used by stock keymaster/DRM paths.
+-->
+<compatibility-matrix version="8.0" type="framework">
+    <hal format="hidl" optional="true">
+        <name>vendor.trustonic.tee</name>
+        <version>1.0-1</version>
+        <interface>
+            <name>ITee</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl" optional="true">
+        <name>vendor.trustonic.tee.tui</name>
+        <version>1.0</version>
+        <interface>
+            <name>ITui</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+</compatibility-matrix>

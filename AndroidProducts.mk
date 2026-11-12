@@ -4,9 +4,9 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_T1101.mk
+    $(LOCAL_DIR)/infinity_T1101.mk
 
 COMMON_LUNCH_CHOICES := \
-    lineage_T1101-user \
-    lineage_T1101-userdebug \
-    lineage_T1101-eng
+    infinity_T1101-user \
+    infinity_T1101-userdebug \
+    infinity_T1101-eng
